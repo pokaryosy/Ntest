@@ -1,13 +1,17 @@
-let json = {}; // new  JSON Object
+let button;
+let checkbox;
 
 scene = 0;
 file_id = 0;
+ffile_id = 0;
 tracking_id = 0;
 fr = 5;  // 30
-min = 10;
-max = 90;
-agenum = Math.floor(Math.random() * (max + 1 - min)) + min;
+mini = 10;
+maxi = 90;
+agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
+midarr = [];
 Lastarr = [];
+filearr = [];
 
 // smallarr = [];
 // arr = [];
@@ -24,12 +28,19 @@ function setup() {
     createCanvas(width, height);
     background(200);
     text('double click to reset', 10, 10);
+    button = createButton("save");
+    button.mousePressed(savedata);
+    // checkbox = createCheckbox('record', false);
+    // checkbox.changed(recordmode);
 }
 
 function draw() {
     frameRate(fr);
     text("scene" + str(scene), 10, 50);
+    //text("file_id" + str(file_id), 10, 70);
+    //print(file_id);
     if (scene == 1) {
+        let json = {}; // new  JSON Object
         fill('#000000');
         ellipse(mouseX, mouseY, 5, 5);
         json.age = agenum;
@@ -41,9 +52,23 @@ function draw() {
         json.world_x = mouseX / width;
         json.world_y = mouseY / height;
         //saveJSON(json, file_id + '.json');
+        //print(json.world_x);
         //print(json);
         arr.push(json);
-        //print(json.world_x);
+        //print(arr);
+
+        // for (i = 0; i < file_id; i++) {
+        //     Lastarr = arr.slice(i, i + 1);
+        // }
+
+
+        // for (i = 0; i < ffile_id; i++) {
+        //     Lastarr = arr.slice(i, i + 1);
+        //     //print(Lastarr);
+        //     saveJSON(Lastarr, i + '.json');
+        //     Lastarr = [];
+        // }
+
 
         file_id = file_id + 1;
 
@@ -58,23 +83,72 @@ function keyPressed() {
     if (keyCode === RIGHT_ARROW) {
         scene = 1;
         // age random
-        min = 10;
-        max = 90;
-        agenum = Math.floor(Math.random() * (max + 1 - min)) + min;
+        agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
+        file_id = 0;
         arr = [];
     } else if (keyCode === LEFT_ARROW) {
         //print(Barr);
         scene = 0;
-        for(i = 0; i < file_id; i++){
-            
-            //print(Lastarr);
-            Lastarr = arr.slice(i, i+1);
-            //print(Lastarr);
-            saveJSON(Lastarr, i + '.json');
-            Lastarr = [];
-        }
-        file_id = 0;
         tracking_id = tracking_id + 1;
+        filearr.push(file_id);
+        midarr.push(arr);
+        print(midarr);
+    }
+}
+
+// function mousePressed() {
+//     if (checkbox == true){
+//         scene = 1;
+//         // age random
+//         agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
+//         arr = [];
+//         file_id = 0;
+//     }
+// }
+
+// function mouseReleased() {
+//     if (checkbox == true) {
+//         print("a");
+//         scene = 0;
+//         tracking_id = tracking_id + 1;
+//         filearr.push(file_id);
+//     }
+// }
+
+// function recordmode() {
+//     if (mouseIsPressed) {
+//         scene = 1;
+//         // age random
+//         agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
+//         arr = [];
+//         file_id = 0;
+//         tracking_id = tracking_id + 1;
+//     } else {
+//         //print(Barr);
+//         scene = 0;
+
+//         filearr.push(file_id);
+//     }
+// }
+
+
+
+function savedata() {
+    hoge = [];
+    ffile_id = Math.max.apply(null, filearr);
+    print(ffile_id)
+    for (j = 0; j < ffile_id; j++) {
+        for (i = 0; i < tracking_id; i++) {
+            hoge = midarr.slice(i, i + 1);
+            print('1')
+            print(hoge);
+            Lastarr = hoge.slice(j, j + 1);
+            print('2')
+            print(Lastarr);
+        }
+        //print(Lastarr);
+        saveJSON(Lastarr, j + '.json');
+        Lastarr = [];
     }
 }
 
