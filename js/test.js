@@ -1,26 +1,21 @@
+
+// about draw
+let scene = 0;
 let button;
 let checkbox;
+const fr = 5;  // 30
 
-scene = 0;
-file_id = 0;
-ffile_id = 0;
-tracking_id = 0;
-fr = 5;  // 30
-mini = 10;
-maxi = 90;
-agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
-midarr = [];
-Lastarr = [];
-filearr = [];
-
-// smallarr = [];
-// arr = [];
-// num = 0;
-
-// for(i = 0; i < file_id; i++){
-//     arr+num
-//     saveJSON(json, arr + i + '.json');
-// }
+// about data 
+const mini = 10;
+const maxi = 90;
+let agenum = Math.floor(Math.random() * (maxi + 1 - mini)) + mini;
+let arr = [];
+let midarr = [];
+let Lastarr = [];
+let filearr = [];
+let file_id = 0;
+let ffile_id = 0;
+let tracking_id = 0;
 
 function setup() {
     width = 500.00000
@@ -51,33 +46,14 @@ function draw() {
         json.tracking_id = tracking_id;
         json.world_x = mouseX / width;
         json.world_y = mouseY / height;
-        //saveJSON(json, file_id + '.json');
         //print(json.world_x);
         //print(json);
         arr.push(json);
         //print(arr);
-
-        // for (i = 0; i < file_id; i++) {
-        //     Lastarr = arr.slice(i, i + 1);
-        // }
-
-
-        // for (i = 0; i < ffile_id; i++) {
-        //     Lastarr = arr.slice(i, i + 1);
-        //     //print(Lastarr);
-        //     saveJSON(Lastarr, i + '.json');
-        //     Lastarr = [];
-        // }
-
-
         file_id = file_id + 1;
-
-        //smallarr + file_id
-
     }
 
 }
-
 
 function keyPressed() {
     if (keyCode === RIGHT_ARROW) {
@@ -136,15 +112,24 @@ function keyPressed() {
 function savedata() {
     hoge = [];
     ffile_id = Math.max.apply(null, filearr);
-    print(ffile_id)
+    //print(ffile_id)
     for (j = 0; j < ffile_id; j++) {
         for (i = 0; i < tracking_id; i++) {
             hoge = midarr.slice(i, i + 1);
-            print('1')
-            print(hoge);
-            Lastarr = hoge.slice(j, j + 1);
-            print('2')
-            print(Lastarr);
+            //print('1')
+            //print(hoge);
+            let demo = hoge[0];
+            //print(demo);
+            let demo2 = demo.slice(j, j + 1);
+            let demo3 = demo2[0];
+            if(demo3 == null){
+                continue;
+            }
+            Lastarr.push(demo3);
+            //print('2')
+            //print(Lastarr);
+            //var demo2 = Lastarr[0];
+            print (demo2);
         }
         //print(Lastarr);
         saveJSON(Lastarr, j + '.json');
@@ -167,15 +152,10 @@ function doubleClicked() {
     fill('#000000');
     text('double click to reset', 10, 10);
     tracking_id = 0;
+    arr = [];
+    midarr = [];
+    Lastarr = [];
 }
-
-
-// for(i = 0; i < file_id; i++){
-//     let json = {};
-// }
-
-
-
 
 /*
 age : 10 ~ 90 （ランダム値）
