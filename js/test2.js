@@ -17,14 +17,18 @@ const bg_record_color = "#222";
 let scene = 0;
 
 
-// memo
-// 一定の進み具合は保つで、時々違う方向に
 
-const walkmax = 5;
-const walkmin = -5;
+const walkmax = 10;
+const walkmin = -10;
 let walknum = 0;
+let paststepX = 0;
+let paststepY = 0;
+let newstepX = 0;
+let newstepY = 0;
+let nextX = 0;
+let nextY = 0;
 let ranx = Math.floor( Math.random() * (width + 1 - 0) ) + 0;
-let rany = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+let rany = Math.floor( Math.random() * (height + 1 - 0) ) + 0;
 
 
 
@@ -141,13 +145,115 @@ function draw() {
     // 処理系 
     // ---
     
+    
     //recordPoint(mouseX, mouseY);
-    if(walknum%2 == 0){
-    rany = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    } else {
-    ranx = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+  
+    // if(walknum%2 == 0){
+    // rany = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    // } else {
+    // ranx = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    // }
+  
+    
+    
+    
+//     if(walknum === 0){
+      
+//     // 1st step
+//     ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//     rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+    
+//     }else if(walknum === 1){
+    
+//     // 2nd step
+//     ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//     rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+//     }else if(walknum === 2){
+    
+//     //3rd step
+//     nextX = newstepX - paststepX;
+//     nextY = newstepY - paststepY;
+//     ranx = paststepX;
+//     rany = rany + nextY;
+    
+//     }else if(walknum >= 3){
+    
+//     //4h step
+//     ranx = paststepX;
+//     rany = rany + nextY;
+    
+//     }
+
+    if(walknum === 0){
+      
+    // 1st step
+    ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+    
+    }else if(walknum === 1){
+    
+    // 2nd step
+    ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+    }else if(walknum === 2){
+    
+    //3rd step
+    nextX = newstepX - paststepX;
+    nextY = newstepY - paststepY;
+    ranx = ranx + nextX;
+    rany = paststepY;
+    
+    }else if(walknum >= 3){
+    
+    //4h step
+    ranx = ranx + nextX;
+    rany = paststepY;
+    
     }
+    
+    //per 5 steps
+    if(walknum%5 === 0 && walknum>0){
+      ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+      rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+    }
+  
+  
+    
+    paststepX = newstepX;
+    paststepY = newstepY;
+    newstepX = ranx;
+    newstepY = rany;
+  
+    print(ranx);
+    print(rany);
+  
     walknum++;
+    
+
+    
+      
+//       if(walknum == 4){
+//         ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//         rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//         walknum = -5;
+//       }
+//     walknum++;
+//     } else {
+//     ranx = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    
+//       if(walknum == 4){
+//         ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//         rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+//         walknum = -5;
+//       }
+//     walknum++;
+//     }
+    
     recordPoint(ranx,rany);
     if (scene == 0 && currentRecord.length > 5000) currentRecord = []; // scene0なのにcurrentRecordgaいっぱいになったらクリアしておく
 }
