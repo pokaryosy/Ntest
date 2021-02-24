@@ -149,17 +149,6 @@ function draw() {
     
     //recordPoint(mouseX, mouseY);
   
-    // if(walknum%2 == 0){
-    // rany = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    // } else {
-    // ranx = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    // }
-  
-    
-  if (direction === 0){
-    
-    // vertical move
-    
     if(walknum === 0){
       
     // 1st step
@@ -173,7 +162,14 @@ function draw() {
     ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
     rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
     
-    }else if(walknum === 2){
+    }
+  
+    
+  if (direction === 0){
+    
+    // vertical move
+    
+    if(walknum === 2){
     
     //3rd step
     nextX = newstepX - paststepX;
@@ -183,7 +179,7 @@ function draw() {
     
     }else if(walknum >= 3){
     
-    //4h step
+    //4th step
     ranx = paststepX;
     rany = rany + nextY;
     
@@ -193,20 +189,7 @@ function draw() {
     
     // horizontal move
   
-    if(walknum === 0){
-      
-    // 1st step
-    ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
-    
-    }else if(walknum === 1){
-    
-    // 2nd step
-    ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
-    }else if(walknum === 2){
+   if(walknum === 2){
     
     //3rd step
     nextX = newstepX - paststepX;
@@ -216,7 +199,7 @@ function draw() {
     
     }else if(walknum >= 3){
     
-    //4h step
+    //4th step
     ranx = ranx + nextX;
     rany = paststepY;
     
@@ -225,11 +208,21 @@ function draw() {
   }
   
   
-    //per 5 steps
+    // wall height
+    if(rany > height || rany < 0) {
+      rany = rany - nextY;
+    }
+    // wall width
+    if(ranx > width || ranx < 0) {
+      ranx = ranx - nextX;
+    }
+    
+  
+  
+    //per 10 steps
     if(walknum%10 === 0 && walknum>0){
       ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
       rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
     }
   
     
@@ -271,4 +264,5 @@ function reset() {
     scene = 0;
     records = [];
     currentRecord = [];
+    walknum = 0;
 }
