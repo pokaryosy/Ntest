@@ -29,6 +29,7 @@ let nextX = 0;
 let nextY = 0;
 let ranx = Math.floor( Math.random() * (width + 1 - 0) ) + 0;
 let rany = Math.floor( Math.random() * (height + 1 - 0) ) + 0;
+let direction = 0;
 
 
 
@@ -155,37 +156,43 @@ function draw() {
     // }
   
     
+  if (direction === 0){
     
+    // vertical move
     
-//     if(walknum === 0){
+    if(walknum === 0){
       
-//     // 1st step
-//     ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//     rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    // 1st step
+    ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
     
     
-//     }else if(walknum === 1){
+    }else if(walknum === 1){
     
-//     // 2nd step
-//     ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//     rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    // 2nd step
+    ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
     
-//     }else if(walknum === 2){
+    }else if(walknum === 2){
     
-//     //3rd step
-//     nextX = newstepX - paststepX;
-//     nextY = newstepY - paststepY;
-//     ranx = paststepX;
-//     rany = rany + nextY;
+    //3rd step
+    nextX = newstepX - paststepX;
+    nextY = newstepY - paststepY;
+    ranx = paststepX;
+    rany = rany + nextY;
     
-//     }else if(walknum >= 3){
+    }else if(walknum >= 3){
     
-//     //4h step
-//     ranx = paststepX;
-//     rany = rany + nextY;
+    //4h step
+    ranx = paststepX;
+    rany = rany + nextY;
     
-//     }
+    }
 
+  }else{
+    
+    // horizontal move
+  
     if(walknum === 0){
       
     // 1st step
@@ -214,45 +221,25 @@ function draw() {
     rany = paststepY;
     
     }
-    
+      
+  }
+  
+  
     //per 5 steps
-    if(walknum%5 === 0 && walknum>0){
+    if(walknum%10 === 0 && walknum>0){
       ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
       rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
     
     }
-  
   
     
     paststepX = newstepX;
     paststepY = newstepY;
     newstepX = ranx;
     newstepY = rany;
-  
-    print(ranx);
-    print(rany);
+    direction = Math.floor( Math.random() * (1 + 1 - 0) ) + 0;
   
     walknum++;
-    
-
-    
-      
-//       if(walknum == 4){
-//         ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//         rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//         walknum = -5;
-//       }
-//     walknum++;
-//     } else {
-//     ranx = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
-//       if(walknum == 4){
-//         ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//         rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-//         walknum = -5;
-//       }
-//     walknum++;
-//     }
     
     recordPoint(ranx,rany);
     if (scene == 0 && currentRecord.length > 5000) currentRecord = []; // scene0なのにcurrentRecordgaいっぱいになったらクリアしておく
