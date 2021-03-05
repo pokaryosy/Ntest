@@ -27,8 +27,8 @@ let newstepX = 0;
 let newstepY = 0;
 let nextX = 0;
 let nextY = 0;
-let ranx = Math.floor( Math.random() * (width + 1 - 0) ) + 0;
-let rany = Math.floor( Math.random() * (height + 1 - 0) ) + 0;
+let ranx = Math.floor(Math.random() * (width + 1 - 0)) + 0;
+let rany = Math.floor(Math.random() * (height + 1 - 0)) + 0;
 let direction = 0;
 
 
@@ -78,10 +78,10 @@ function saveDataToJson() {
     print("maxLength : " + maxFrameLength);
 
 
-    for (let fr=0; fr<maxFrameLength; fr++) {
+    for (let fr = 0; fr < maxFrameLength; fr++) {
         let saveArray = []; // ファイルに出力するデータの初期化. saveするデータは、一人分の記録のときは[{}], 複数人のときは、[{}, {}, {}]という形なので、空の配列を用意しておく
 
-        for (let p=0; p<peopleNum; p++) {
+        for (let p = 0; p < peopleNum; p++) {
             // すでにフレームが終わってたらループを抜ける
             if (fr >= records[p].length) continue;
 
@@ -90,7 +90,7 @@ function saveDataToJson() {
         }
 
         const timestamp = str(month()) + str(day()) + str(hour()) + str(minute()); // ファイルが重複しないようにタイムスタンプつける. あとでpythoのスクリプトとかで消せば良い
-        const filename = "./" + timestamp + "-" + (fr+1) + ".json";
+        const filename = "./" + timestamp + "-" + (fr + 1) + ".json";
         console.log(filename)
         saveJSON(saveArray, filename); // saveJSONはarrayかobjをファイルとして出力できる
     }
@@ -106,7 +106,7 @@ function setup() {
 }
 
 function draw() {
-    
+
     const bg_color = scene == 1 ? bg_record_color : bg_normal_color;
     background(bg_color);
 
@@ -124,7 +124,7 @@ function draw() {
     text(recordInfo, 5, 465);
     const bufferInfo = "PEOPLE NUM " + records.length;
     text(bufferInfo, 5, 480);
-    
+
     // ---
     // 描画系
     //----
@@ -145,102 +145,102 @@ function draw() {
     // ---
     // 処理系 
     // ---
-    
-    
+
+
     //recordPoint(mouseX, mouseY);
-  
-    if(walknum === 0){
-      
-    // 1st step
-    ranx = ranx + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    rany = rany + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
-    
-    }else if(walknum === 1){
-    
-    // 2nd step
-    ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-    
-    }
-  
-    
-  if (direction === 0){
-    
-    // vertical move
-    
-    if(walknum === 2){
-    
-    //3rd step
-    nextX = newstepX - paststepX;
-    nextY = newstepY - paststepY;
-    ranx = paststepX;
-    rany = rany + nextY;
-    
-    }else if(walknum >= 3){
-    
-    //4th step
-    ranx = paststepX;
-    rany = rany + nextY;
-    
+
+    if (walknum === 0) {
+
+        // 1st step
+        ranx = ranx + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
+        rany = rany + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
+
+
+    } else if (walknum === 1) {
+
+        // 2nd step
+        ranx = newstepX + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
+        rany = newstepY + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
+
     }
 
-  }else{
-    
-    // horizontal move
-  
-   if(walknum === 2){
-    
-    //3rd step
-    nextX = newstepX - paststepX;
-    nextY = newstepY - paststepY;
-    ranx = ranx + nextX;
-    rany = paststepY;
-    
-    }else if(walknum >= 3){
-    
-    //4th step
-    ranx = ranx + nextX;
-    rany = paststepY;
-    
+
+    if (direction === 0) {
+
+        // vertical move
+
+        if (walknum === 2) {
+
+            //3rd step
+            nextX = newstepX - paststepX;
+            nextY = newstepY - paststepY;
+            ranx = paststepX;
+            rany = rany + nextY;
+
+        } else if (walknum >= 3) {
+
+            //4th step
+            ranx = paststepX;
+            rany = rany + nextY;
+
+        }
+
+    } else {
+
+        // horizontal move
+
+        if (walknum === 2) {
+
+            //3rd step
+            nextX = newstepX - paststepX;
+            nextY = newstepY - paststepY;
+            ranx = ranx + nextX;
+            rany = paststepY;
+
+        } else if (walknum >= 3) {
+
+            //4th step
+            ranx = ranx + nextX;
+            rany = paststepY;
+
+        }
+
     }
-      
-  }
-  
-  
+
+
     // wall height
-    if(rany > height || rany < 0) {
-      rany = rany - nextY;
+    if (rany > height || rany < 0) {
+        rany = rany - nextY;
     }
     // wall width
-    if(ranx > width || ranx < 0) {
-      ranx = ranx - nextX;
+    if (ranx > width || ranx < 0) {
+        ranx = ranx - nextX;
     }
-    
-  
-  
+
+
+
     //per 10 steps
-    if(walknum%10 === 0 && walknum>0){
-      ranx = newstepX + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
-      rany = newstepY + Math.floor( Math.random() * (walkmax + 1 - walkmin) ) + walkmin;
+    if (walknum % 10 === 0 && walknum > 0) {
+        ranx = newstepX + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
+        rany = newstepY + Math.floor(Math.random() * (walkmax + 1 - walkmin)) + walkmin;
     }
-  
-    
+
+
     paststepX = newstepX;
     paststepY = newstepY;
     newstepX = ranx;
     newstepY = rany;
-    direction = Math.floor( Math.random() * (1 + 1 - 0) ) + 0;
-  
+    direction = Math.floor(Math.random() * (1 + 1 - 0)) + 0;
+
     walknum++;
-    
-    recordPoint(ranx,rany);
+
+    recordPoint(ranx, rany);
     if (scene == 0 && currentRecord.length > 5000) currentRecord = []; // scene0なのにcurrentRecordgaいっぱいになったらクリアしておく
 }
 
 
 function keyPressed() {
-    if (keyCode === RIGHT_ARROW || key=="r") {
+    if (keyCode === RIGHT_ARROW || key == "r") {
         if (scene != 1) { // すでにscene1になっていたら何も起こらないように
             currentRecord = [];
             scene = 1;
